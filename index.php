@@ -11,6 +11,7 @@
 ?>
 
 <?php
+    // Filter inputs in forms
     $newtitle = filter_input(INPUT_POST, "newtitle", FILTER_SANITIZE_STRING);
     $newdesc = filter_input(INPUT_POST, "newdesc", FILTER_SANITIZE_STRING);
 ?>
@@ -30,6 +31,7 @@
     </header>
     <main>
     <?php if(!$newtitle) {?>
+        <!-- Add a task to DB -->
         <section>
             <h2>Add a task</h2>
             <form action="<?php echo $_SERVER['PHP_SELF']?>" method="POST">
@@ -45,13 +47,24 @@
         <section>
             <div id="table">
             <h2>Current Tasks</h2>
+            <!-- Check for tasks -->
+            <?php if (!$tasks)
+            {
+                echo "No to do list items exist yet.";
+            }
+            else
+            {
+                echo "Here's what is on the to do list.";
+            }
+            ?>
+            <br>
             <table>
             <tr>
                 <th>Title</th>
                 <th>Description</th>
                 <th>Done?</th>
             </tr>
-
+            <!-- Display tasks -->
             <?php foreach ($tasks as $task):?>
             <tr>
             <td><?php echo $task['Title'];?></td>
@@ -82,7 +95,6 @@
 
         <?php } else {?>
             <?php require("database.php"); ?>
-
             <?php 
                 if ($newtitle)
                 {
@@ -98,6 +110,7 @@
                     header("Location:.");
                 }
             ?>
+
         <?php }?>
     </main>
 </body>
